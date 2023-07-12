@@ -7,7 +7,9 @@ import LoginPage from "./pages/Login";
 import AppLayout from "./layouts/AppLayout";
 import CookieService from "./services/CookieService";
 import AdminLayout from "./layouts/AdminLayout";
-import Dashboard from "./pages/admin/Dashboard";
+import AdminProducts from "./pages/admin/AdminProducts";
+import DashboardPage from "./pages/admin/Index";
+
 
 const App = () => {
   const token = CookieService.get('jwt')
@@ -22,8 +24,8 @@ const App = () => {
         </Route>
 
         <Route element={<AdminLayout/>} path="/dashboard">
-          <Route element={<Dashboard />} index />
-          <Route element={<h2>Products</h2>} path="/dashboard/products" /> 
+          <Route element={<DashboardPage />} index />
+          <Route element={<AdminProducts />} path="/dashboard/products" /> 
         </Route>
 
         <Route element={<LoginPage isLoggedIn={token} />} path="/login" />

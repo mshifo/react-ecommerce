@@ -13,6 +13,7 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist'
+import { pokemonApi } from './services/api.slice';
 
 const persistConfig = {
   key: 'cart',
@@ -25,14 +26,19 @@ export const store = configureStore({
   reducer: {
     login: loginSlice,
     cart: persistedCart,
-    global: globalSlice
+    global: globalSlice,
+    [pokemonApi.reducerPath]: pokemonApi.reducer,
   },
+  
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
+    /*getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }),*/
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(pokemonApi.middleware)
 })
 
 export const persister = persistStore(store)
