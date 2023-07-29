@@ -30,7 +30,7 @@ export const pokemonApi = createApi({
         }),
         updateProduct: builder.mutation({
             query(data){
-                const { id, ...body } = data
+                const { id, body } = data
                 return {
                     url: `/${id}`,
                     method: 'PUT',

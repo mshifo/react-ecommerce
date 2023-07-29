@@ -30,8 +30,9 @@ import CustomModal from "../shared/Modal";
 import { set } from "react-hook-form";
 
 const ProductsTable = ({ data }) => {
-  const [deleteId, setDeleteId] = useState(null);
+  const [entityId, setEntityId] = useState(null);
   const [editEntity, setEditEntity] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null)
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -41,11 +42,11 @@ const ProductsTable = ({ data }) => {
   } = useDisclosure();
 
   const [deleteProduct, { isLoading, isSuccess }] = useDeleteProductMutation();
-  const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
+  const [updateProduct, { isLoading: isUpdating, isSuccess: isUpdated }] = useUpdateProductMutation();
 
   useEffect(() => {
     if (isSuccess == true) {
-      setDeleteId(null);
+      setEntityId(null);
       onClose();
     }
   }, [isSuccess]);
@@ -64,6 +65,26 @@ const ProductsTable = ({ data }) => {
       });
     }
   };
+
+  const onFileSelect = (e) => {
+    setThumbnail(e.target.files[0])
+  }
+
+  const onSubmitHandler = () => {
+    const {title, price} = editEntity;
+
+    const formData = new FormData();
+    formData.append('data', JSON.stringify({title, price}))
+    formData.append('files.thumbnail', thumbnail)
+
+    updateProduct({id: entityId, body: formData});
+    if(isUpdated){
+      onMClose();
+      setEditEntity(null);
+      setEntityId(null);
+      setThumbnail(null);
+    }
+  }
 
   return (
     <>
@@ -95,6 +116,7 @@ const ProductsTable = ({ data }) => {
                     onClick={() => {
                       set;
                       setEditEntity(item.attributes);
+                      setEntityId(item.id);
                       onMOpen();
                     }}
                   >
@@ -105,7 +127,7 @@ const ProductsTable = ({ data }) => {
                     size={"sm"}
                     colorScheme="red"
                     onClick={() => {
-                      setDeleteId(item.id);
+                      setEntityId(item.id);
                       onOpen();
                     }}
                   >
@@ -122,13 +144,14 @@ const ProductsTable = ({ data }) => {
         isOpen={isOpen}
         onOpen={onOpen}
         onClose={onClose}
-        action={() => deleteProduct(deleteId)}
+        action={() => deleteProduct(entityId)}
       />
       <CustomModal
-        action={() => updateProduct()}
+        action={() => onSubmitHandler()}
         isOpen={isMOpen}
         onClose={onMClose}
         onOpen={onMOpen}
+        isLoading = {isUpdating}
       >
         <FormControl mb={2}>
           <FormLabel>First name</FormLabel>
@@ -154,6 +177,19 @@ const ProductsTable = ({ data }) => {
             </NumberInputStepper>
           </NumberInput>
         </FormControl>
+
+        <FormControl mb={2}>
+          <FormLabel>Thumbnail</FormLabel>
+          <Input
+            name="thumbnail"
+            type="file"
+            accept="image/png, image/jpg, image/jpeg"
+            h={"full"}
+            padding={2}
+            onChange={onFileSelect}
+          />
+        </FormControl>
+
       </CustomModal>
     </>
   );

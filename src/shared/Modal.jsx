@@ -9,13 +9,14 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 
-function CustomModal({ isOpen, onOpen, onClose, children, action }) {
+function CustomModal({ isOpen, onOpen, onClose, children, action, isLoading }) {
   return (
     <>
-      
-
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay bg={"blackAlpha.500"} backdropFilter={"blur(5px) hue-rotate(90deg)"} />
+        <ModalOverlay
+          bg={"blackAlpha.500"}
+          backdropFilter={"blur(5px) hue-rotate(90deg)"}
+        />
         <ModalContent>
           <ModalHeader>Edit Product</ModalHeader>
           <ModalCloseButton />
@@ -25,7 +26,9 @@ function CustomModal({ isOpen, onOpen, onClose, children, action }) {
             <Button mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button onClick={action} colorScheme="blue">Save</Button>
+            <Button isLoading={isLoading} onClick={action} colorScheme="blue">
+              Save
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
