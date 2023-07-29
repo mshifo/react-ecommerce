@@ -4,7 +4,6 @@ import ProductsTableSkeleton from "../../components/ProductsTableSkeleton";
 
 const AdminProducts = () => {
   const { data, error, isLoading } = useGetPaginatedProductsQuery({ page: 1 });
-  console.log(data, error, isLoading);
   return isLoading ? <ProductsTableSkeleton /> : <ProductsTable {...data} />;
 };
 

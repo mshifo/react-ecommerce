@@ -26,7 +26,7 @@ import { selectCart } from "../app/features/cartSlice";
 import { openCloseDrawer } from "../app/features/globalSlice";
 
 const Links = [
-  { path: "/", value: "Dashboard" },
+  { path: "/dashboard", value: "Dashboard" },
   { path: "products", value: "Products" },
   //{ path: "login", value: "Login" },
 ];
