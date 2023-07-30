@@ -9,6 +9,7 @@ import CookieService from "./services/CookieService";
 import AdminLayout from "./layouts/AdminLayout";
 import AdminProducts from "./pages/admin/AdminProducts";
 import DashboardPage from "./pages/admin/Index";
+import OnlineStatusToast from "./components/OnlineStatusToast";
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
 
         <Route element={<LoginPage isLoggedIn={token} />} path="/login" />
       </Routes>
+      <OnlineStatusToast />
     </>
   );
 };
