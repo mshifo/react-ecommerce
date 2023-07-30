@@ -28,9 +28,7 @@ const ProductCard = ({ product }) => {
     <Card>
       <CardBody>
         <Image
-          src={`${import.meta.env.VITE_APP_API_URL}${
-            attributes?.thumbnail?.data?.attributes?.url
-          }`}
+          src={ attributes?.thumbnail?.data?.attributes?.formats?.thumbnail?.url}
           alt="Green double couch with wooden legs"
           borderRadius="full"
           boxSize={"200px"}
